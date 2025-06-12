@@ -137,7 +137,7 @@ Follow the prompt:
 
 | CLI Interface             | HTML Report                 |
 | ------------------------- | --------------------------- |
-| ![](screenshots/menu.png) | ![](screenshots/report.png) |
+| ![](screenshorts/menu.png) | ![](screenshorts/Report.png) |
 
 ---
 
