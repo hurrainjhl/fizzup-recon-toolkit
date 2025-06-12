@@ -158,6 +158,33 @@ from modules.passive import who_is
 result = who_is.lookup("example.com")
 print(result)
 ```
+---
+
+## 🐳 Docker Support
+
+Run FizzUp inside a container for easier dependency management.
+
+###  Build Docker Image
+
+```bash
+docker build -t fizzup-recon .
+```
+
+###  Run the Tool via Docker
+
+```bash
+docker run --rm -it fizzup-recon
+```
+
+###  Development Mode (Mount Your Code)
+
+```bash
+docker run --rm -it -v $(pwd):/app fizzup-recon
+```
+
+> **Note**: Use `$(pwd)` on Linux/macOS or `%cd%` on Windows CMD, `$PWD` in PowerShell.
+
+---
 
 ---
 
