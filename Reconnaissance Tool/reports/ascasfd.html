@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recon Report: certifiedhacker.com</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .banner h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header-info {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .header-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            color: var(--warning);
+            font-weight: bold;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            color: var(--primary);
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .summary {
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        }
+        
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .summary ul {
+            padding-left: 1.5rem;
+        }
+        
+        .summary li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .contact-table th {
+            background-color: var(--dark);
+        }
+        
+        .record-table th {
+            background-color: var(--secondary);
+        }
+        
+        .port-table th {
+            background-color: var(--accent);
+        }
+        
+        .banner-table th {
+            background-color: #9b59b6;
+        }
+        
+        .tech-table th {
+            background-color: #27ae60;
+        }
+        
+        .banner-text {
+            max-width: 300px;
+            overflow: auto;
+            max-height: 100px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+        }
+        
+        .chart-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            margin: 3rem 0 2rem;
+            text-align: center;
+        }
+        
+        .section-title h2 {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 2rem;
+            border-radius: 30px;
+            border-bottom: none;
+        }
+        
+        .divider {
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            margin: 0.5rem auto;
+            width: 80%;
+        }
+        
+        .security ul {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .security li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .subdomain-lists {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .subdomain-table {
+            font-size: 0.85rem;
+        }
+        
+        .stats {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stats p {
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .disclaimer {
+            margin-top: 1rem;
+            font-style: italic;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        </style>
+</head>
+<body>
+<script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Print functionality
+        document.getElementById('print-btn').addEventListener('click', () => {
+            window.print();
+        });
+        
+        // Collapsible sections
+        document.querySelectorAll('section h2').forEach(header => {
+            header.addEventListener('click', () => {
+                const section = header.parentElement;
+                section.classList.toggle('collapsed');
+            });
+        });
+        </script>
+<header>
+<div class="header-content">
+<div class="banner">
+<h1>UHZ RECONNAISSANCE REPORT</h1>
+</div>
+<div class="header-info">
+<h2>Target: <span class="highlight">certifiedhacker.com</span></h2>
+<p>Generated on: <span class="highlight">2025-06-06 17:40:18</span></p>
+</div>
+</div>
+</header>
+<main class="container">
+<section class="summary">
+<h2><i class="fas fa-clipboard-list"></i> Executive Summary</h2>
+<div class="summary-content">
+<h3>Active Recon Summary</h3><ul>
+<li>0 open ports found</li>
+</ul>
+</div>
+</section>
+<div class="section-title">
+<h2>Active Reconnaissance Results</h2>
+<div class="divider"></div>
+</div>
+<section class="port-scan">
+<h2><i class="fas fa-plug"></i> Port Scanning Results</h2>
+<div class="stats">
+<p><strong>Targets Scanned:</strong> 1</p>
+<p><strong>Open Ports Found:</strong> 0</p>
+<p><strong>Services Found:</strong> 0</p>
+</div>
+<table class="port-table">
+<tr><th>Port</th><th>Protocol</th><th>Service</th><th>Version</th><th>Product</th></tr>
+</table>
+</section>
+</main>
+<footer>
+<div class="footer-content">
+<p>Report generated by UHZ Reconnaissance Tool on 2025-06-06</p>
+<p class="disclaimer">This report contains sensitive security information. Handle with care.</p>
+</div>
+</footer>
+</body>
+</html>

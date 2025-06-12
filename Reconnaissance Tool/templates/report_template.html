@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recon Report - {{ report.meta.target }}</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --success: #2ecc71;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .critical {
+            border-left-color: var(--danger);
+        }
+        
+        .warning {
+            border-left-color: var(--warning);
+        }
+        
+        .section-title {
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--light);
+            font-weight: 600;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+        
+        .summary-critical {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .summary-warning {
+            background-color: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .summary-info {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .chart-img {
+            width: 100%;
+            max-width: 1000px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .subdomain-list {
+            columns: 3;
+            column-gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .subdomain-list {
+                columns: 2;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .subdomain-list {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reconnaissance Report</h1>
+        <p>Target: <strong>{{ report.meta.target }}</strong></p>
+        <p>Generated at: {{ report.meta.generated_at }}</p>
+    </header>
+    
+    <section>
+        <h2 class="section-title">Summary Findings</h2>
+        
+        {% if report.summary.critical %}
+        <div class="card critical">
+            <h3>Critical Findings</h3>
+            <ul>
+                {% for item in report.summary.critical %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        {% if report.summary.warnings %}
+        <div class="card warning">
+            <h3>Warnings</h3>
+            <ul>
+                {% for item in report.summary.warnings %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        {% if report.summary.informational %}
+        <div class="card">
+            <h3>Informational</h3>
+            <ul>
+                {% for item in report.summary.informational %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </section>
+    
+    {% if report.passive %}
+    <section>
+        <h2 class="section-title">Passive Reconnaissance</h2>
+        
+        {% if report.passive.whois %}
+        <div class="card">
+            <h3>WHOIS Information</h3>
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Registrar</td>
+                    <td>{{ report.passive.whois.registrar }}</td>
+                </tr>
+                <tr>
+                    <td>Creation Date</td>
+                    <td>{{ report.passive.whois.created }}</td>
+                </tr>
+                <tr>
+                    <td>Expiration Date</td>
+                    <td>{{ report.passive.whois.expires }}</td>
+                </tr>
+                <tr>
+                    <td>Name Servers</td>
+                    <td>{{ report.passive.whois.name_servers|join(', ') }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+        
+        {% if report.passive.dns %}
+        <div class="card">
+            <h3>DNS Records</h3>
+            {% if report.visualizations.dns_chart %}
+            <div class="chart-container">
+                {{ report.visualizations.dns_chart|safe }}
+            </div>
+            {% endif %}
+            
+            <table>
+                <tr>
+                    <th>Record Type</th>
+                    <th>Values</th>
+                </tr>
+                {% for rtype, values in report.passive.dns.records.items() %}
+                <tr>
+                    <td>{{ rtype }}</td>
+                    <td>{{ values|join('<br>')|safe }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>DNSSEC</td>
+                    <td>{{ "Enabled" if report.passive.dns.dnssec else "Disabled" }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+        
+        {% if report.passive.subdomains %}
+        <div class="card">
+            <h3>Subdomain Enumeration</h3>
+            <p>Total subdomains found: {{ report.passive.subdomains.total }}</p>
+            {% if report.passive.subdomains.wildcard %}
+            <p class="warning">Warning: Wildcard DNS detected</p>
+            {% endif %}
+            
+            <div class="subdomain-list">
+                <ul>
+                    {% for sub in report.passive.subdomains.subdomains %}
+                    <li>{{ sub }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+    
+    {% if report.active %}
+    <section>
+        <h2 class="section-title">Active Reconnaissance</h2>
+        
+        {% if report.active.port_scan %}
+        <div class="card">
+            <h3>Port Scan Results</h3>
+            <p>Open ports: {{ report.active.port_scan.open_ports|length }}</p>
+            
+            {% if report.visualizations.port_chart %}
+            <div class="chart-container">
+                {{ report.visualizations.port_chart|safe }}
+            </div>
+            {% endif %}
+            
+            <table>
+                <tr>
+                    <th>Port</th>
+                    <th>Protocol</th>
+                    <th>Service</th>
+                    <th>Version</th>
+                </tr>
+                {% for port in report.active.port_scan.open_ports %}
+                <tr>
+                    <td>{{ port.port }}</td>
+                    <td>{{ port.protocol }}</td>
+                    <td>{{ port.service }}</td>
+                    <td>{{ port.version }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        
+        {% if report.active.banners %}
+        <div class="card">
+            <h3>Service Banners</h3>
+            <table>
+                <tr>
+                    <th>Port</th>
+                    <th>Banner</th>
+                    <th>Vulnerabilities</th>
+                </tr>
+                {% for banner in report.active.banners.banners %}
+                <tr>
+                    <td>{{ banner.port }}</td>
+                    <td><pre>{{ banner.banner }}</pre></td>
+                    <td>
+                        {% if banner.vulnerabilities %}
+                        <ul>
+                            {% for vuln in banner.vulnerabilities %}
+                            <li>{{ vuln }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        None detected
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        
+        {% if report.active.tech_detect %}
+        <div class="card">
+            <h3>Technology Detection</h3>
+            
+            {% if report.visualizations.tech_radar %}
+            <div class="chart-container">
+                {{ report.visualizations.tech_radar|safe }}
+            </div>
+            {% endif %}
+            
+            <table>
+                <tr>
+                    <th>Technology</th>
+                    <th>Confidence</th>
+                    <th>Details</th>
+                </tr>
+                {% for tech, details in report.active.tech_detect.consolidated.items() %}
+                <tr>
+                    <td>{{ tech }}</td>
+                    <td>{{ details.confidence }}%</td>
+                    <td>
+                        {% if details.version %}
+                        Version: {{ details.version }}<br>
+                        {% endif %}
+                        {% if details.cpe %}
+                        CPE: {{ details.cpe }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+    
+    <footer>
+        <p>Generated by Recon Tool v2.0</p>
+    </footer>
+</body>
+</html>
