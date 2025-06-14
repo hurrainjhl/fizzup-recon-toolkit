@@ -17,3 +17,9 @@ asyncio==3.4.3
 shodan==1.30.0
 virustotal-api==1.1.11
 pyopenssl==23.3.0
+
+
+seaborn
+requests
+beautifulsoup4
+python-whois

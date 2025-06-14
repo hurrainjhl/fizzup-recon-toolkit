@@ -445,7 +445,6 @@ Location: https://certifiedhacker.com/
 Content-Length: 236
 Connection: close
 Content-Type: text/html; charset=iso-8859-1
-
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
 <title>301 Moved Permanently</title>
@@ -456,6 +455,49 @@ Content-Type: text/html; charset=iso-8859-1
 </div></td><td>None</td></tr>
 <tr><td>110</td><td>POP3</td><td><div class="banner-text">+OK Dovecot ready.
 -ERR Unknown command.
+</div></td><td>None</td></tr>
+<tr><td>21</td><td>FTP</td><td><div class="banner-text">220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 150 allowed.
+220-Local time is now 05:58. Server port: 21.
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+</div></td><td>None</td></tr>
+<tr><td>22</td><td>SSH</td><td><div class="banner-text">SSH-2.0-OpenSSH_7.4
+</div></td><td>None</td></tr>
+<tr><td>25</td><td>SMTP</td><td><div class="banner-text">220-box5331.bluehost.com ESMTP Exim 4.98.1 #2 Thu, 12 Jun 2025 05:58:46 -0600 
+220-We do not authorize the use of this system to transport unsolicited, 
+220 and/or bulk e-mail.
+500 unrecognized command
+</div></td><td>None</td></tr>
+<tr><td>26</td><td>unknown</td><td><div class="banner-text">220-box5331.bluehost.com ESMTP Exim 4.98.1 #2 Thu, 12 Jun 2025 05:58:41 -0600 
+220-We do not authorize the use of this system to transport unsolicited, 
+220 and/or bulk e-mail.
+500 unrecognized command
+</div></td><td>None</td></tr>
+<tr><td>80</td><td>HTTP</td><td><div class="banner-text">HTTP/1.1 301 Moved Permanently
+Date: Thu, 12 Jun 2025 11:58:41 GMT
+Server: Apache
+Location: https://certifiedhacker.com/
+Content-Length: 236
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+>>>>>>> 2dc8026 (Initial commit)
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>301 Moved Permanently</title>
+</head><body>
+<h1>Moved Permanently</h1>
+<p>The document has moved <a href="https://certifiedhacker.com/">here</a>.</p>
+</body></html>
+</div></td><td>None</td></tr>
+<<<<<<< HEAD
+<tr><td>110</td><td>POP3</td><td><div class="banner-text">+OK Dovecot ready.
+-ERR Unknown command.
+=======
+<tr><td>110</td><td>POP3</td><td><div class="banner-text">+OK Dovecot ready.
+-ERR Unknown command.
+>>>>>>> 2dc8026 (Initial commit)
 </div></td><td>None</td></tr>
 </table>
 </section>
